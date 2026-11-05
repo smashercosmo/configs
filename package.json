@@ -1,6 +1,6 @@
 {
   "name": "@smashercosmo/configs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Shared tooling configs",
   "license": "MIT",
   "repository": {
@@ -16,8 +16,14 @@
   },
   "exports": {
     "./ts/*": "./src/ts/tsconfig.*.json",
-    "./oxfmt": "./src/oxfmt/oxfmt.config.mjs",
-    "./oxlint": "./src/oxlint/oxlint.config.mjs"
+    "./oxfmt": {
+      "types": "./src/oxfmt/oxfmt.config.d.mts",
+      "default": "./src/oxfmt/oxfmt.config.mjs"
+    },
+    "./oxlint": {
+      "types": "./src/oxlint/oxlint.config.d.mts",
+      "default": "./src/oxlint/oxlint.config.mjs"
+    }
   },
   "publishConfig": {
     "access": "public"
