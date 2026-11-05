@@ -1,0 +1,23 @@
+# Upgrade Node with `pnpm update:node <major>`: it updates devEngines.runtime in package.json
+# and "@types/node" in the "types" and "peers" catalogs below.
+
+hoist: false
+saveExact: true
+catalogMode: strict
+catalogs:
+  dev:
+    oxfmt: 0.76.0
+    typescript: 7.0.2
+  types:
+    "@types/node": 26.6.6
+  peers:
+    "@types/node": ^26.0.0
+    eslint-plugin-regexp: ">=3.3.3"
+    oxfmt: ">=0.76.0"
+    oxlint: ">=1.91.0"
+    oxlint-tsgolint: ">=7.0.2005"
+    typescript: ">=7.0.0"
+  lint:
+    oxlint: 1.91.0
+    oxlint-tsgolint: 7.0.2005
+    eslint-plugin-regexp: 3.3.3

@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2024",
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+
+    "allowJs": true,
+    "checkJs": true,
+
+    /**
+     * All our apps and libraries are build with bundlers (usually Vite is used for apps and TsDown for libraries).
+     * They handle both transpilation, types generation and source maps creation. Because of that we don't need settings
+     * like "declaration", "declarationMap", "emitDeclarationOnly" and "sourcemap" in our TypeScript configs.
+     */
+    "noEmit": true,
+    "incremental": true,
+
+    /**
+     * "strict" setting is now "true" by default.
+     */
+    "allowArbitraryExtensions": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "erasableSyntaxOnly": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "name": "@smashercosmo/configs",
+  "version": "0.1.0",
+  "description": "Shared tooling configs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smashercosmo/configs.git"
+  },
+  "files": [
+    "src"
+  ],
+  "type": "module",
+  "imports": {
+    "#*": "./*"
+  },
+  "exports": {
+    "./ts/*": "./src/ts/tsconfig.*.json",
+    "./oxfmt": "./src/oxfmt/oxfmt.config.mjs",
+    "./oxlint": "./src/oxlint/oxlint.config.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "format": "oxfmt",
+    "lint:ox": "oxlint --type-aware",
+    "lint:types": "tsc",
+    "lint": "pnpm lint:ox && pnpm lint:types",
+    "update:node": "node scripts/update-node.ts",
+    "update:deps": "pnpm up --latest --interactive"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:types",
+    "eslint-plugin-regexp": "catalog:lint",
+    "oxfmt": "catalog:dev",
+    "oxlint": "catalog:lint",
+    "oxlint-tsgolint": "catalog:lint",
+    "typescript": "catalog:dev"
+  },
+  "peerDependencies": {
+    "@types/node": "catalog:peers",
+    "eslint-plugin-regexp": "catalog:peers",
+    "oxfmt": "catalog:peers",
+    "oxlint": "catalog:peers",
+    "oxlint-tsgolint": "catalog:peers",
+    "typescript": "catalog:peers"
+  },
+  "peerDependenciesMeta": {
+    "@types/node": {
+      "optional": true
+    },
+    "eslint-plugin-regexp": {
+      "optional": true
+    },
+    "oxfmt": {
+      "optional": true
+    },
+    "oxlint": {
+      "optional": true
+    },
+    "oxlint-tsgolint": {
+      "optional": true
+    },
+    "typescript": {
+      "optional": true
+    }
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^26.0.0",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.16.1"
+}
