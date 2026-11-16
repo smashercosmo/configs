@@ -1,10 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    /**
-     * "preserve" assumes,
-     * that "moduleResolution" is "bundler"
-     */
+    /** "preserve" assumes, that "moduleResolution" is "bundler". */
     "module": "preserve",
     "lib": ["es2024", "dom", "dom.iterable"]
   }

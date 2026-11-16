@@ -1,7 +1,4 @@
 {
   "extends": "./src/ts/tsconfig.node.json",
   "include": ["scripts", "src", "oxlint.config.ts", "oxfmt.config.ts"],
-  "compilerOptions": {
-    "rewriteRelativeImportExtensions": true
-  }
 }
