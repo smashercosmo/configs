@@ -1,8 +1,6 @@
-/** @import { OxlintConfig } from "oxlint" */
-
 import { defineConfig } from "oxlint";
 
-/** @type {OxlintConfig} */
+/** @type {import("oxlint").OxlintConfig} */
 const oxlintConfig = {
   ignorePatterns: [".claude/**"],
   jsPlugins: [{ name: "regexp", specifier: "eslint-plugin-regexp" }],
@@ -13,6 +11,7 @@ const oxlintConfig = {
    */
   plugins: ["unicorn", "eslint", "import", "node", "typescript", "vitest", "promise", "oxc"],
   rules: {
+
     //region ------------- Unicorn rules -------------
 
     "unicorn/catch-error-name": "error",
@@ -859,31 +858,6 @@ const oxlintConfig = {
     //endregion
   },
   overrides: [
-    //region ------------- Environments -------------
-
-    {
-      files: [".github/**/*.ts"],
-      env: {
-        node: true,
-      },
-    },
-
-    //endregion
-
-    //region ------------- GitHub Actions overrides -------------
-
-    {
-      files: [".github/**"],
-      rules: {
-        /** We don't need for our GitHub Actions to be commonjs compatible */
-        "node/no-top-level-await": "off",
-
-        /** It's totally fine to use sync methods in GitHub Actions */
-        "node/no-sync": "off",
-      },
-    },
-
-    //endregion
 
     //region ------------- React overrides -------------
 
@@ -917,7 +891,7 @@ const oxlintConfig = {
     //region ------------- Config files overrides -------------
 
     {
-      files: ["**/*.config.ts", "**/*.config.mjs", "**/*.config.js"],
+      files: ["**/*.config.*.{ts,mjs}", "**/*.config.{ts,mjs}"],
       rules: {
         /** All config files that I'm aware of require default export. */
         "import/no-default-export": "off",
@@ -983,9 +957,7 @@ const oxlintConfig = {
         "vitest/prefer-strict-boolean-matchers": "error",
         "vitest/prefer-strict-equal": "error",
         "vitest/prefer-to-be": "error",
-        "vitest/prefer-to-be-falsy": "error",
         "vitest/prefer-to-be-object": "error",
-        "vitest/prefer-to-be-truthy": "error",
         "vitest/prefer-to-contain": "error",
         "vitest/prefer-to-have-been-called-times": "error",
         "vitest/prefer-to-have-length": "error",
@@ -1045,6 +1017,15 @@ const oxlintConfig = {
          * like everything to be as explicit as possible.
          */
         "vitest/no-importing-vitest-globals": "off",
+
+        /*
+         * These rules conflict with `vitest/prefer-strict-boolean-matchers`:
+         * they prefer `toBeTruthy()` over `toBe(true)`, while the strict matcher
+         * requires the opposite. Prefer strict matchers because `toBeTruthy()`
+         * also passes for non-boolean values like `1` and `"no"`.
+         */
+        "vitest/prefer-to-be-truthy": "off",
+        "vitest/prefer-to-be-falsy": "off",
 
         //endregion
 

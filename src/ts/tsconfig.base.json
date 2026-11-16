@@ -12,16 +12,22 @@
     "checkJs": true,
 
     /**
-     * All our apps and libraries are build with bundlers (usually Vite is used for apps and TsDown for libraries).
-     * They handle both transpilation, types generation and source maps creation. Because of that we don't need settings
-     * like "declaration", "declarationMap", "emitDeclarationOnly" and "sourcemap" in our TypeScript configs.
+     * All our apps and libraries are built with bundlers (usually Vite for apps and TSDown for libraries).
+     * They handle transpilation, type generation and source maps. Because of that, we don't need settings
+     * like "declaration", "declarationMap", "emitDeclarationOnly" and "sourceMap" in our TypeScript configs:
+     * TypeScript is basically used as a typecheck (with the exception of "composite" projects).
      */
     "noEmit": true,
     "incremental": true,
-
     /**
-     * "strict" setting is now "true" by default.
+     * Every project must set its own "tsBuildInfoFile". A relative path here
+     * resolves against this file, so all projects would share one build info
+     * file and overwrite each other's.
      */
+    /** "tsBuildInfoFile": "node_modules/tsconfig.tsbuildinfo". */
+
+
+    /** The "strict" setting is "true" by default now, so it isn't set here. */
     "allowArbitraryExtensions": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
