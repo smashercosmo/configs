@@ -23,6 +23,10 @@
     "./oxlint": {
       "types": "./src/oxlint/oxlint.config.d.mts",
       "default": "./src/oxlint/oxlint.config.mjs"
+    },
+    "./oxlint/react": {
+      "types": "./src/oxlint/react.config.d.mts",
+      "default": "./src/oxlint/react.config.mjs"
     }
   },
   "publishConfig": {
@@ -32,7 +36,9 @@
     "format": "oxfmt",
     "lint:ox": "oxlint --type-aware",
     "lint:types": "tsc",
-    "lint": "pnpm lint:ox && pnpm lint:types",
+    "lint:format": "oxfmt --check",
+    "lint:rules": "node scripts/check-rules.ts",
+    "lint": "pnpm lint:ox && pnpm lint:types && pnpm lint:format && pnpm lint:rules",
     "update:node": "node scripts/update-node.ts",
     "update:deps": "pnpm up --latest --interactive"
   },

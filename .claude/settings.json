@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_response.filePath // .tool_input.file_path // empty'); case \"$f\" in */node_modules/*) exit 0 ;; \"$CLAUDE_PROJECT_DIR\"/*) ;; *) exit 0 ;; esac; cd \"$CLAUDE_PROJECT_DIR\" || exit 0; node_modules/.bin/oxfmt --no-error-on-unmatched-pattern \"$f\" >/dev/null 2>&1; case \"$f\" in *.js|*.mjs|*.cjs|*.jsx|*.ts|*.mts|*.cts|*.tsx) out=$(node_modules/.bin/oxlint --type-aware -f unix \"$f\" 2>&1) || { printf 'oxlint reported problems in %s. Fix them:\\n%s\\n' \"$f\" \"$out\" >&2; exit 2; } ;; esac; exit 0",
+            "timeout": 60,
+            "statusMessage": "Formatting and linting..."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,7 +1,6 @@
 import { defineConfig } from "oxfmt";
 
 export default defineConfig({
-  $schema: "./node_modules/oxfmt/configuration_schema.json",
   arrowParens: "always",
   jsdoc: true,
   printWidth: 80,

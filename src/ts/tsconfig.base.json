@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
     "skipLibCheck": true,
-    "target": "es2024",
+    "target": "es2025",
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
@@ -26,13 +25,13 @@
      */
     /** "tsBuildInfoFile": "node_modules/tsconfig.tsbuildinfo". */
 
-
     /** The "strict" setting is "true" by default now, so it isn't set here. */
     "allowArbitraryExtensions": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
+    "noImplicitReturns": true,
     "erasableSyntaxOnly": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,

@@ -25,7 +25,10 @@ Every tool is an optional peer dependency: install only the tools you use.
 
 ```json
 {
-  "extends": ["@smashercosmo/configs/ts/dom", "@smashercosmo/configs/ts/composite"]
+  "extends": [
+    "@smashercosmo/configs/ts/dom",
+    "@smashercosmo/configs/ts/composite"
+  ]
 }
 ```
 
@@ -47,8 +50,26 @@ export default defineConfig({
 });
 ```
 
-Enables the `unicorn`, `eslint`, `import`, `node`, `typescript`, `vitest`, `promise` and `oxc`
-plugins plus `eslint-plugin-regexp` as a JS plugin. `oxlint-tsgolint` powers the type-aware rules.
+Enables the `unicorn`, `eslint`, `import`, `node`, `typescript`, `vitest`, `promise`, `oxc` and
+`jsdoc` plugins plus `eslint-plugin-regexp` as a JS plugin. `oxlint-tsgolint` powers the type-aware
+rules.
+
+### React
+
+```ts
+// oxlint.config.ts
+import config from "@smashercosmo/configs/oxlint";
+import reactConfig from "@smashercosmo/configs/oxlint/react";
+import { defineConfig } from "oxlint";
+
+export default defineConfig({
+  options: { typeAware: true },
+  extends: [config, reactConfig],
+});
+```
+
+Adds the `react`, `react-perf` and `jsx-a11y` plugins, including the React Compiler rules. The
+`react-perf` rules are off because React Compiler memoizes props automatically.
 
 ## oxfmt
 
@@ -73,6 +94,16 @@ isn't sorted.
 ## Development
 
 This repo uses its own configs: `tsconfig.json` extends `src/ts/tsconfig.node.json`.
+
+### Checking rule coverage
+
+```sh
+pnpm lint:rules
+```
+
+Compares the oxlint configs with the rules oxlint and `eslint-plugin-regexp` provide. It reports
+rules that no config mentions (usually new in a release) and configured rules that don't exist. Run
+it after upgrading oxlint or a plugin. It's also part of `pnpm lint`.
 
 ### Upgrading Node
 

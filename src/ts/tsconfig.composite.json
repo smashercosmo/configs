@@ -10,7 +10,7 @@
      */
     "noEmit": false,
     "composite": true,
-    "declaration": true,
+    "declarationMap": true,
     "emitDeclarationOnly": true
 
     /**
