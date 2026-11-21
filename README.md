@@ -8,6 +8,9 @@ pnpm add -D @smashercosmo/configs
 
 Every tool is an optional peer dependency: install only the tools you use.
 
+Every config is commented in detail: each non-obvious option, and every rule that is modified or
+turned off, comes with an explanation of why. Read the source before overriding something.
+
 ## TypeScript
 
 | Config                               | Use for                                            |
@@ -17,9 +20,17 @@ Every tool is an optional peer dependency: install only the tools you use.
 | `@smashercosmo/configs/ts/node`      | Node.js code (needs `@types/node`)                 |
 | `@smashercosmo/configs/ts/composite` | Add to a project used through project references   |
 
+TypeScript is used only for type checking, so the configs set `noEmit` (`composite` is the
+exception: it emits declarations). They also turn on `incremental`, which saves build info between
+runs to speed up later checks. Each project has to set its own `tsBuildInfoFile`: a path in a shared
+config is resolved relative to that config, so every project would write to the same file.
+
 ```json
 {
-  "extends": "@smashercosmo/configs/ts/node"
+  "extends": "@smashercosmo/configs/ts/node",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/tsconfig.tsbuildinfo"
+  }
 }
 ```
 
@@ -44,8 +55,11 @@ import config from "@smashercosmo/configs/oxlint";
 import { defineConfig } from "oxlint";
 
 export default defineConfig({
-  // Can't be set in a shared config, so every project has to enable it itself.
-  options: { typeAware: true },
+  // Options can't be set in a shared config, so every project has to set them itself.
+  options: {
+    reportUnusedDisableDirectives: "error",
+    typeAware: true,
+  },
   extends: [config],
 });
 ```
@@ -54,22 +68,26 @@ Enables the `unicorn`, `eslint`, `import`, `node`, `typescript`, `vitest`, `prom
 `jsdoc` plugins plus `eslint-plugin-regexp` as a JS plugin. `oxlint-tsgolint` powers the type-aware
 rules.
 
-### React
+Every rule is listed explicitly, grouped into enabled, modified and disabled regions per plugin.
 
-```ts
-// oxlint.config.ts
-import config from "@smashercosmo/configs/oxlint";
-import reactConfig from "@smashercosmo/configs/oxlint/react";
-import { defineConfig } from "oxlint";
+### Duplicate rules
 
-export default defineConfig({
-  options: { typeAware: true },
-  extends: [config, reactConfig],
-});
-```
+Rules that only duplicate another check are turned off, and each one says what covers it instead,
+so the same problem is never reported twice:
 
-Adds the `react`, `react-perf` and `jsx-a11y` plugins, including the React Compiler rules. The
-`react-perf` rules are off because React Compiler memoizes props automatically.
+- rules duplicated by a type-aware or more precise rule from another plugin, e.g.
+  `unicorn/prefer-includes` (handled by `typescript/prefer-includes`) or `no-invalid-regexp`
+  (handled by `regexp/no-invalid-regexp`);
+- rules for problems TypeScript already reports as compile errors, e.g. `getter-return` (TS2378) or
+  `no-dupe-keys` (TS1117), with the TypeScript error code for each.
+
+### Overrides
+
+- `*.tsx`: the `react`, `react-perf` and `jsx-a11y` plugins, including the React Compiler rules.
+  The `react-perf` rules are off because React Compiler memoizes props automatically.
+- `**/*.spec.{ts,tsx}`: the Vitest rules.
+- `*.config.*` files: default exports are allowed.
+- `*.d.ts` files: don't have to be modules.
 
 ## oxfmt
 
