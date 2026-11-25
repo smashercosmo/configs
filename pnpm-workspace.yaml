@@ -4,6 +4,13 @@
 hoist: false
 saveExact: true
 catalogMode: strict
+
+# `pnpm version` writes the changelog to CHANGELOG.md, which the release
+# workflow reads the notes of the GitHub releases from.
+versioning:
+  changelog:
+    storage: repository
+
 catalogs:
   dev:
     oxfmt: 0.76.0

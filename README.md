@@ -132,3 +132,33 @@ pnpm update:node 28
 Sets `devEngines.runtime` in `package.json` to `^28.0.0`, `@types/node` in the `types` catalog to the
 latest published `28.x.x` and in the `peers` catalog to `^28.0.0`, then runs `pnpm install`. Commit
 the changed files.
+
+### Releasing
+
+Releases are made from change intents, with pnpm's own versioning, by the reusable workflows of
+[smashercosmo/actions](https://github.com/smashercosmo/actions). Every pull request has to add an
+intent, which CI checks:
+
+```sh
+pnpm change              # describe the change and its version bump
+pnpm change --bump none  # for a change that doesn't need a release
+```
+
+On every push to `main`, the [release workflow](./.github/workflows/release.yml) opens or updates a
+release PR, which applies the pending intents: it bumps the version and writes `CHANGELOG.md`.
+Merging the release PR runs CI on the merge commit and stages the new version on npm. Approve it
+with `pnpm stage approve` (it asks for 2FA): once it's on npm, the workflow publishes its GitHub
+release, which creates the `v<version>` tag.
+
+The release workflow needs:
+
+- A GitHub App installed on the repository, with `contents` and `pull-requests` write permissions.
+  It opens the release PRs, so that CI runs for them.
+- A repository variable `RELEASE_BOT_CLIENT_ID` with the App's client ID. It has to be a repository
+  (or organization) variable, not one of the environment.
+- An environment named `release`, with a secret `RELEASE_BOT_PRIVATE_KEY`: the App's private key.
+- A trusted publisher for `@smashercosmo/configs` on npm: GitHub Actions, this repository, the
+  workflow `release.yml` and the environment `release`.
+- A ruleset for `main` that requires the `ci / changeset` and `ci / check` status checks and
+  branches to be up to date before merging. Otherwise a release PR could be merged without the
+  intents added since it was opened.
